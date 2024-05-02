@@ -1,61 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
     <title>Helia/Libp2p Browser Connection Testing Suite</title>
   </head>
   <body>
-      <header>
-          <div class="m-3">
-              <button type="button" id="start" class="btn btn-secondary">Start Helia</button>
-              <span id="peerId"></span>
-          </div>
-      </header>
-      <main class="container-fluid">
-          <div id="mask" class="invisible">
-              <div class="row">
-                  <div class="col-md-6 col-sm-12">
-                      <div class="card">
-                          <div class="card-body">
-                              <h5 class="card-title">Discover peer address</h5>
-                              <div class="mt-3">
-                                  <label for="relayAddressTextBox" class="form-label">Relay Address</label>
-                                  <input id="relayAddressTextBox" type="text" class="form-control" placeholder="E.g. /ip4/127.0.0.1/tcp/12312/ws/p2p/12D3KooWM9TUESeHbEtj4uTi4LddBxCSuT6bojAtkDVQb14MZCff">
-                              </div>
-                              <div class="mt-3">
-                                  <button type="button" id="discover" class="btn btn-primary">Discover</button>
-                              </div>
-                              <div id="peerAddress"></div>
-                          </div>
-                      </div>
-                  
-                      <h3 class="text-center m-3">or</h3>
-                  
-                      <div class="card">
-                          <div class="card-body">
-                              <h5 class="card-title">Directly connect to remote peer</h5>
-                              <div class="mt-3">
-                                  <label for="peerAddressTextBox" class="form-label">Peer Address</label>
-                                  <input id="peerAddressTextBox" type="text" class="form-control" placeholder="E.g. /ip4/127.0.0.1/tcp/12312/ws/p2p/12D3KooWM9TUESeHbEtj4uTi4LddBxCSuT6bojAtkDVQb14MZCff/p2p-circuit/webrtc/p2p/12D3KooWFDYawT3ur9s9rKbcBFS46rwddeoM3vUhEehx2ZBWKmyr">
-                             </div>                            
-                             <div class="mt-3">
-                                 <button type="button" id="connect" class="btn btn-primary">Connect</button>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="col-md-6 col-sm-12">
-                     <div class="card">
-                         <div class="card-body">
-                             <h5 class="card-title">Connected Peers</h5>
-                             <ul id="connectedPeers"></ul>
-                         </div>
-                     </div>
-                 </div>
+    <header>
+      <div class="m-3">
+        <button type="button" id="start" class="btn btn-secondary">
+          Start Helia
+        </button>
+        <span id="peerId"></span>
+      </div>
+    </header>
+    <main class="container-fluid">
+      <div id="mask" class="invisible">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Discover peer address</h5>
+                <div class="mt-3">
+                  <label for="relayAddressTextBox" class="form-label"
+                    >Relay Address</label
+                  >
+                  <input
+                    id="relayAddressTextBox"
+                    type="text"
+                    class="form-control"
+                    placeholder="E.g. /ip4/127.0.0.1/tcp/12312/ws/p2p/12D3KooWM9TUESeHbEtj4uTi4LddBxCSuT6bojAtkDVQb14MZCff"
+                  />
+                </div>
+                <div class="mt-3">
+                  <button type="button" id="discover" class="btn btn-primary">
+                    Discover
+                  </button>
+                </div>
+                <div id="peerAddress"></div>
               </div>
-          </div>
-      </main>
+            </div>
 
-      <script src="./dist/main.js"></script>
+            <h3 class="text-center m-3">or</h3>
+
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Directly connect to remote peer</h5>
+                <div class="mt-3">
+                  <label for="peerAddressTextBox" class="form-label"
+                    >Peer Address</label
+                  >
+                  <input
+                    id="peerAddressTextBox"
+                    type="text"
+                    class="form-control"
+                    placeholder="E.g. /ip4/127.0.0.1/tcp/12312/ws/p2p/12D3KooWM9TUESeHbEtj4uTi4LddBxCSuT6bojAtkDVQb14MZCff/p2p-circuit/webrtc/p2p/12D3KooWFDYawT3ur9s9rKbcBFS46rwddeoM3vUhEehx2ZBWKmyr"
+                  />
+                </div>
+                <div class="mt-3">
+                  <button type="button" id="connect" class="btn btn-primary">
+                    Connect
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Connected Peers</h5>
+                <ul id="connectedPeers"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="./dist/main.js"></script>
   </body>
 </html>
