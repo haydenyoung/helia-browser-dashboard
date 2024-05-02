@@ -1,0 +1,32 @@
+{
+  "name": "helia-browser-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "webpack",
+    "start": "npm run build && http-server ./dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "css-loader": "^7.1.1",
+    "html-webpack-plugin": "^5.6.0",
+    "http-server": "^14.1.1",
+    "postcss-loader": "^8.1.1",
+    "sass": "^1.76.0",
+    "sass-loader": "^14.2.1",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@chainsafe/libp2p-gossipsub": "^13.0.0",
+    "@multiformats/multiaddr": "^12.2.1",
+    "@multiformats/multiaddr-matcher": "^1.2.1",
+    "bootstrap": "^5.3.3",
+    "helia": "^4.2.0"
+  }
+}
