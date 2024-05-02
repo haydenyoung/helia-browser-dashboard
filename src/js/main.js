@@ -9,6 +9,11 @@ import { multiaddr } from "@multiformats/multiaddr";
 import { WebRTC } from "@multiformats/multiaddr-matcher";
 import pRetry from "p-retry";
 import delay from "delay";
+import { pipe } from "it-pipe"
+import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
+import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
+
+const protocol = "/helia-browser-dashboard/1.0.0"
 
 let helia;
 const connectedPeers = [];
@@ -104,4 +109,51 @@ function updateConnectedPeers() {
     li.appendChild(document.createTextNode(connectedPeers[i]));
     ul.appendChild(li);
   }
+}
+
+document.getElementById("registerStream").onclick = async function () {
+  await registerStream()
+}
+
+async function registerStream() {
+  console.log('registering stream...')
+  
+  const result = async (source) => {
+    console.log('result')
+    for await (const val of source) {
+      console.log("val", uint8ArrayToString(val.subarray()));
+    }
+  };  
+  
+  const incoming = ({ protocol, stream }) => {
+      console.log('incoming')
+    pipe(stream, result);
+  };  
+
+  await helia.libp2p.handle(protocol, incoming);
+  console.log('stream registered')
+}
+
+document.getElementById("stream").onclick = async function () {
+  await startStream()
+}
+
+async function startStream() {
+  console.log('starting stream...')
+  const peerAddress = document.getElementById("peerAddressTextBox").value;
+
+  const outgoing = (source) => {
+    const values = [uint8ArrayFromString("1"), uint8ArrayFromString("2")];
+
+    return (async function* () {
+      for await (const value of values) {
+        yield value;
+      }
+    })();
+  };
+
+  console.log('dialling stream...')
+  const stream = await helia.libp2p.dialProtocol(multiaddr(peerAddress), protocol, { runOnTransientConnection: true });
+  pipe(outgoing, stream);
+  console.log('stream dialled')
 }
