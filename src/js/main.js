@@ -115,22 +115,20 @@ document.getElementById("registerStream").onclick = async function () {
   await registerStream()
 }
 
+const result = async (source) => {
+    for await (const val of source) {
+        console.log("val", uint8ArrayToString(val.subarray()))
+    }
+};  
+
+const incoming = ({ protocol, stream }) => {
+    pipe(stream, result)
+}
+
 async function registerStream() {
   console.log('registering stream...')
-  
-  const result = async (source) => {
-    console.log('result')
-    for await (const val of source) {
-      console.log("val", uint8ArrayToString(val.subarray()));
-    }
-  };  
-  
-  const incoming = ({ protocol, stream }) => {
-      console.log('incoming')
-    pipe(stream, result);
-  };  
 
-  await helia.libp2p.handle(protocol, incoming);
+  await helia.libp2p.handle(protocol, incoming)
   console.log('stream registered')
 }
 
@@ -138,22 +136,24 @@ document.getElementById("stream").onclick = async function () {
   await startStream()
 }
 
+const outgoing = (source) => {
+    return (async function* () {
+        for (let i = 0; i < 10; i++) {
+    		yield uint8ArrayFromString(`Iteration ${i}`);
+    		await new Promise(resolve => setTimeout(resolve, 5000));
+    	}
+    })();
+};
+
 async function startStream() {
+  const runOnTransientConnection = true
+  
   console.log('starting stream...')
   const peerAddress = document.getElementById("peerAddressTextBox").value;
 
-  const outgoing = (source) => {
-    const values = [uint8ArrayFromString("1"), uint8ArrayFromString("2")];
-
-    return (async function* () {
-      for await (const value of values) {
-        yield value;
-      }
-    })();
-  };
-
   console.log('dialling stream...')
-  const stream = await helia.libp2p.dialProtocol(multiaddr(peerAddress), protocol, { runOnTransientConnection: true });
-  pipe(outgoing, stream);
+  const stream = await helia.libp2p.dialProtocol(multiaddr(peerAddress), protocol, { runOnTransientConnection });
   console.log('stream dialled')
+
+  pipe(outgoing, stream);
 }
