@@ -12,11 +12,14 @@ import delay from "delay";
 import { pipe } from "it-pipe"
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
+import { createOrbitDB } from '@orbitdb/core'
 
 const protocol = "/helia-browser-dashboard/1.0.0"
 
-let helia;
-const connectedPeers = [];
+const connectedPeers = []
+let helia
+let orbitdb
+let db
 
 document.getElementById("start").onclick = async function () {
   console.log("starting helia...");
@@ -149,11 +152,72 @@ async function startStream() {
   const runOnTransientConnection = true
   
   console.log('starting stream...')
-  const peerAddress = document.getElementById("peerAddressTextBox").value;
+  const peerAddress = document.getElementById("peerAddressTextBox").value
 
   console.log('dialling stream...')
-  const stream = await helia.libp2p.dialProtocol(multiaddr(peerAddress), protocol, { runOnTransientConnection });
+  const stream = await helia.libp2p.dialProtocol(multiaddr(peerAddress), protocol, { runOnTransientConnection })
   console.log('stream dialled')
 
-  pipe(outgoing, stream);
+  pipe(outgoing, stream)
+}
+
+document.getElementById("hangup").onclick = async function () {
+  await stopStream()
+}
+
+async function stopStream() {
+  /*
+  console.log('Hanging up...')
+  await helia.libp2p.hangUp(multiaddr(peerAddress))
+  console.log('Hung up')
+  */
+  console.log('stopping...')
+  await helia.libp2p.stop()
+  console.log('stopped')
+  console.log('restarting...')
+  await helia.libp2p.start()
+  console.log('restarted')
+}
+
+document.getElementById("startOrbitDB").onclick = async function () {
+  await startOrbitDB()
+}
+
+async function startOrbitDB() {
+  console.log('starting orbitdb...')
+  orbitdb = await createOrbitDB({ ipfs: helia })
+  console.log('orbitdb started')
+}
+
+document.getElementById("openDB").onclick = async function () {
+  await openDB()
+}
+
+async function openDB() {
+  const nameOrAddress = document.getElementById("dbTextBox").value
+  console.log('opening db...', nameOrAddress)
+  db = await orbitdb.open(nameOrAddress)
+  db.events.on('join', (peerId, heads) => {
+    console.log('joined', peerId)
+  })
+  db.events.on('update', async entry => {
+    console.log('retrieving all records...')
+    const all = await db.all()
+    document.getElementById("dbRecords").innerHTML = ""
+    document.getElementById("dbRecords").innerHTML += all.reverse().map(v => v.value).join('<br/>')
+    console.log('all records retrieved')
+  })
+  document.getElementById("dbAddress").innerText = db.address
+  console.log('db opened')
+}
+
+document.getElementById("saveRecord").onclick = async function () {
+  await saveRecord()
+}
+
+async function saveRecord() {
+  const record = document.getElementById("recordTextBox").value
+  console.log('saving record...', record)
+  const hash = await db.add(record)
+  console.log('record saved', hash)
 }

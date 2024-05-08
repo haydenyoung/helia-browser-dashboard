@@ -34,7 +34,7 @@ const initHelia = async () => {
     },
     services: {
       identify: identify(),
-      pubsub: gossipsub({ allowPublishToZeroPeers: true }),
+      pubsub: gossipsub({ allowPublishToZeroTopicPeers: true }),
     },
   };
 

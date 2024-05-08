@@ -28,6 +28,7 @@
     "@chainsafe/libp2p-yamux": "^6.0.1",
     "@multiformats/multiaddr": "^12.2.1",
     "@multiformats/multiaddr-matcher": "^1.2.1",
+    "@orbitdb/core": "^2.2.0",
     "bootstrap": "^5.3.3",
     "helia": "^4.2.0"
   }

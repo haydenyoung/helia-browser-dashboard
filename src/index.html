@@ -41,6 +41,7 @@
                              <div class="mt-3">
                                  <button type="button" id="connect" class="btn btn-primary">Connect</button>
                                  <button type="button" id="stream" class="btn btn-primary">Stream</button>
+                                 <button type="button" id="hangup" class="btn btn-primary">Hang up</button>                                 
                              </div>
                          </div>
                      </div>
@@ -76,6 +77,41 @@
                       </div>                      
                   </div>
               </div>
+              <div class="row mt-5">
+                  <div class="col-md-6 col-sm-12">
+                      <div class="card">
+                          <div class="card-body">
+                              <h5 class="card-title">Database</h5>
+                              <div class="mt-3">
+                                  <button type="button" id="startOrbitDB" class="btn btn-primary">Start OrbitDB</button>
+                              </div>
+                              <div class="mt-3">
+                                  <label for="dbTextBox" class="form-label">DB Name/Address</label>
+                                  <input id="dbTextBox" type="text" class="form-control" placeholder="E.g. my-db or /orbitdb/0x123">
+                             </div>
+                             <div class="mt-3">
+                                 <button type="button" id="openDB" class="btn btn-primary">Open</button>
+                             </div>
+                              <div id="dbAddress"></div>
+                              <div class="mt-3">
+                                  <label for="recordTextBox" class="form-label">New record</label>
+                                  <input id="recordTextBox" type="text" class="form-control">
+                             </div>
+                             <div class="mt-3">
+                                 <button type="button" id="saveRecord" class="btn btn-primary">Save</button>
+                             </div>                             
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                      <div class="card">
+                          <div class="card-body">
+                              <h5 class="card-title">DB Records</h5>
+                              <div id="dbRecords"></div>
+                          </div>
+                      </div>                      
+                  </div>                  
+              </div>              
           </div>
       </main>
 
